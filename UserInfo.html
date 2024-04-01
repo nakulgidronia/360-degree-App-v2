@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Data from Firebase</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Messages</h2>
+        <ul id="messagesList"></ul>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBI27WJ5-IrRp8x42qVcTH-FjUCZlDtaPo",
+            authDomain: "indieappdb1.firebaseapp.com",
+            databaseURL: "https://indieappdb1-default-rtdb.firebaseio.com",
+            projectId: "indieappdb1",
+            storageBucket: "indieappdb1.appspot.com",
+            messagingSenderId: "261250358064",
+            appId: "1:261250358064:web:5e15b0dcf8171dd9f686f5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Reference your database
+        var indieappdb1Ref = firebase.database().ref("indieappdb1");
+
+        indieappdb1Ref.on('value', (snapshot) => {
+            const data = snapshot.val();
+            const list = document.getElementById("messagesList");
+            list.innerHTML = ''; // Clear current list
+            Object.keys(data).forEach(key => {
+                const msg = data[key];
+                const listItem = document.createElement("li");
+                listItem.innerText = `Name: ${msg.name}, Email: ${msg.emailid}, Message: ${msg.msgContent}`;
+                list.appendChild(listItem);
+            });
+        });
+    </script>
+</body>
+</html>
